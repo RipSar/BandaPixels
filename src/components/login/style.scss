@@ -1,0 +1,38 @@
+
+.login_wrapper {
+  display: flex;
+  flex-direction: column;
+  padding: 23px;
+
+  h1 {
+    color: white;
+    font-size: 32px;
+    line-height: 34.5px;
+    margin-top: 123px;
+  }
+
+  input {
+    background: rgba(47, 47, 45, 1);
+    border-radius: 4px;
+    font-size: 16px;
+    color:  rgba(255, 255, 255, 0.5);
+    margin-top: 32px;
+    padding: 19px 15px 12px 15px;
+    line-height: 22px;
+
+  }
+
+  button {
+    background: rgba(255, 214, 0, 1);
+    border-radius: 100px;
+    padding: 11px;
+    font-size: 12px;
+    -webkit-tap-highlight-color: transparent;
+    margin-top: 16px;
+  }
+
+  @media (min-width: 1000px) {
+    width: 1000px;
+    margin: 0 auto;
+  }
+}
