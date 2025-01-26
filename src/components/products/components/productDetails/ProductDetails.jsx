@@ -14,22 +14,26 @@ const ProductDetails = () => {
   const navigate = useNavigate();
   const [product, setProduct] = useState(null);
   const [error, setError] = useState(null);
+  const [isLoading, setIsLoading] = useState(true)
 
   useEffect(() => {
+    setIsLoading(true);
     const isUser = localStorage.getItem('user')
     const userToken = !!isUser && JSON.parse(isUser)
     if (!Object.keys(userToken).length) {
       navigate('/login')
     }
-  }, []);
 
-  useEffect(() => {
     if (!id || isNaN(Number(id))) {
       setError("Invalid product ID");
       return;
     }
 
-    fetch(`https://fakestoreapi.com/products/${id}`)
+    fetch(`https://fakestoreapi.com/products/${id}`, {
+      headers: {
+        'Authorization': userToken,
+      }
+    })
       .then((res) => {
         if (!res.ok) {
           throw new Error("Product not found");
@@ -37,7 +41,10 @@ const ProductDetails = () => {
         return res.json();
       })
       .then((json) => setProduct(json))
-      .catch((err) => setError(err.message));
+      .catch((err) => setError(err.message))
+      .finally(() => {
+      setIsLoading(false);
+    });
   }, [id]);
 
   if (error) {
@@ -49,11 +56,17 @@ const ProductDetails = () => {
     );
   }
 
-  if (!product) {
+  if (isLoading) {
     return (
       <AnimatePresence mode="wait">
         <Splash key='splash' />
       </AnimatePresence>
+    )
+  }
+
+  if (!product) {
+    return (
+      <h1>Product was removed</h1>
     );
   }
 

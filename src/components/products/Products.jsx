@@ -1,26 +1,53 @@
 import './style.scss'
 import * as motion from "motion/react-client"
 import { useEffect, useState } from "react";
-import {Link, useNavigate} from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import {AnimatePresence} from "motion/react";
+import NotFound from "../notFound/NotFound";
+import Splash from "../splash/Splash";
 
 const Products = () => {
   const navigate = useNavigate()
   const [data, setData] = useState([])
+  const [isLoading, setIsLoading] = useState(true)
+  const [error, setError] = useState(null);
 
   useEffect(() => {
+    setIsLoading(true);
     const isUser = localStorage.getItem('user')
     const userToken = !!isUser && JSON.parse(isUser)
     if (!Object.keys(userToken).length) {
       navigate('/login')
     }
-  }, []);
 
-  useEffect(() => {
-    fetch('https://fakestoreapi.com/products')
+    fetch('https://fakestoreapi.com/products', {
+      headers: {
+        'Authorization': userToken,
+      }
+    })
       .then(res => res.json())
       .then(json => setData(json))
+      .catch((err) => setError(err.message))
+      .finally(() => {
+      setIsLoading(false)
+      });
   }, []);
 
+  if (error) {
+    return (
+      <AnimatePresence mode="wait">
+        <NotFound key='not-found' />
+      </AnimatePresence>
+    );
+  }
+
+  if (isLoading) {
+    return (
+      <AnimatePresence mode="wait">
+        <Splash key='splash' />
+      </AnimatePresence>
+    )
+  }
   return (
     <motion.div
       initial={{ opacity: 0, scale: 0.5 }}

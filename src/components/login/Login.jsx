@@ -1,8 +1,8 @@
 import './style.scss'
 import * as motion from "motion/react-client"
-import {useEffect, useState} from "react";
+import { useEffect, useState } from "react";
 import { AnimatePresence } from "motion/react";
-import {useNavigate} from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 
 const currentInput = {

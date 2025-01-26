@@ -1,6 +1,6 @@
 import './reset.css'
 import './App.css';
-import {useEffect, useState} from "react";
+import { useEffect, useState } from "react";
 import { AnimatePresence } from "motion/react"
 import Splash from "./components/splash/Splash";
 import Login from "./components/login/Login";
@@ -11,13 +11,9 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 
 function App() {
   const [isLoading, setIsLoading] = useState(true)
-  const [isLoggedIn, setIsLoggedIn] = useState(false)
 
   useEffect(() => {
     setTimeout(() => setIsLoading(false), 1000)
-    const isUser = localStorage.getItem('user')
-    const userToken = !!isUser && JSON.parse(isUser)
-    Object.keys(userToken).length ? setIsLoggedIn(true) : setIsLoggedIn(false)
   }, []);
 
   const handleLogin = (login, password) => {
@@ -42,7 +38,6 @@ function App() {
         return res.json();
       })
       .then((json) => {
-        setIsLoggedIn(true);
         localStorage.setItem('user', JSON.stringify(json.token));
       })
       .catch((err) => {
@@ -56,29 +51,18 @@ function App() {
   if (isLoading) {
     return (
       <AnimatePresence mode="wait">
-        <Splash key='splash' />
+        <Splash key='splash'/>
       </AnimatePresence>)
   }
 
-  if (!isLoggedIn) {
-    return (
-      <AnimatePresence mode="wait">
-        <Login
-          key='login'
-          setIsLoggedIn={setIsLoggedIn}
-          handleLogin={handleLogin}
-        />
-      </AnimatePresence>
-    )
-  }
   return (
     <BrowserRouter>
       <AnimatePresence mode="wait">
         <Routes>
-          <Route path="/" element={ <Products key='products' /> } />
-          <Route path="/login" element={ <Login key='login' handleLogin={handleLogin} /> } />
-          <Route path="/product/:id" element={ <ProductDetails key='product-detail' /> } />
-          <Route path="*" element={<NotFound key='not-found' />} />
+          <Route path="/" element={<Products key='products'/>}/>
+          <Route path="/login" element={<Login key='login' handleLogin={handleLogin}/>}/>
+          <Route path="/product/:id" element={<ProductDetails key='product-detail'/>}/>
+          <Route path="*" element={<NotFound key='not-found'/>}/>
         </Routes>
       </AnimatePresence>
     </BrowserRouter>

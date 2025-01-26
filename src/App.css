@@ -1,15 +1,4 @@
-
-@font-face {
-  font-family: 'Gabarito';
-  font-style: normal;
-  src: url('https://fonts.gstatic.com/s/gabarito/v1/something.woff2') format('woff2');
-}
-
-@font-face {
-  font-family: 'Alata';
-  font-style: normal;
-  src: url('https://fonts.gstatic.com/s/alata/v9/FVZRt_VfQxKCHovzaA.woff2') format('woff2');
-}
+@import url('https://fonts.googleapis.com/css2?family=Gabarito&family=Alata&display=swap');
 
 .App {
   text-align: center;
